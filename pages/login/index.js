@@ -4,26 +4,6 @@ window.addEventListener("DOMContentLoaded", () => {
     const password = document.getElementById("password");
     const error = document.getElementById('error-message');
 
-    email.addEventListener("keyup", () => {
-        if (isEmail(email.value)) {
-            email.classList.remove('incorrect-content');
-            email.classList.add('correct-content')
-        } else {
-            email.classList.remove('correct-content');
-            email.classList.add('incorrect-content')
-        }
-    });
-
-    password.addEventListener("keyup", () => {
-        if (!isEmpty(password.value)) {
-            password.classList.remove('incorrect-content');
-            password.classList.add('correct-content')
-        } else {
-            password.classList.remove('correct-content');
-            password.classList.add('incorrect-content')
-        }
-    })
-
     document.addEventListener("submit", async (event) => {
         event.preventDefault();
 
