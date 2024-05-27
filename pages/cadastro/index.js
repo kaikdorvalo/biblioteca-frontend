@@ -142,7 +142,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        if (isEmail(email.value) && !isEmpty(password.value)) {
+        if (validateEmail(email.value) && password.value.length >= 8) {
             email.disabled = true;
             password.disabled = true;
 

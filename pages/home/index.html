@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../resetcss/reset.css" rel="stylesheet">
+    <link href="./index.css" rel="stylesheet">
+    <title>Home</title>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-box">
+            <div>
+                <div class="header-logo-box"></div>
+            </div>
+            <div class="header-nav-box">
+                <ul class="header-list">
+                    <li class="header-list-li">
+                        <div class="header-ul-img-box">
+                            <img src="./icons/pranchetas.png">
+                        </div>
+                        <p class="header-list-li-title">Meus Anúncios</p>
+                    </li>
+                    <li class="header-list-li">
+                        <div class="header-ul-img-box">
+                            <img src="./icons/sino.png">
+                        </div>
+                        <p class="header-list-li-title">Notificações</p>
+                    </li>
+                </ul>
+
+                <div class="header-user-box">
+                    <div class="header-user-img-box">
+                        <img src="./icons/do-utilizador.png">
+                    </div>
+                    <p class="header-user-username">Username</p>
+                    <div class="header-user-box-arrow">
+                        <img src="./icons/arrow.png">
+                    </div>
+                </div>
+
+                <button class="header-announce-btn">Anunciar</button>
+            </div>
+        </div>
+    </header>
+
+
+
+    <main>
+        <div class="main-box">
+            <div class="main-carousel-box">
+                <div id="back" class="main-carousel-arrow main-carousel-arrow-left">
+                    <img src="./icons/seta-esquerda.png">
+                </div>
+                <div class="main-carousel-overflow">
+                    <ul id="main-carousel" class="main-carousel-list">
+                        <li class="main-carousel-list-item main-carousel-list-item1"></li>
+                        <li class="main-carousel-list-item main-carousel-list-item2"></li>
+                    </ul>
+                </div>
+
+                <div id="next" class="main-carousel-arrow main-carousel-arrow-right">
+                    <img src="./icons/seta-direita.png">
+                </div>
+            </div>
+
+            <form class="main-search-box">
+                <div class="main-search-input-text-box">
+                    <input class="main-search-input-text" type="text" placeholder="Search for books">
+                </div>
+                <div class="main-search-div"></div>
+                <div class="main-search-selects-search">
+                    <div class="main-search-select-box">
+                        <select id="main-search-select-uf" class="main-search-select" id="select-uf">
+                            <option value="portorico" selected>Porto Rico</option>
+                            <option value="maringa">Maringá</option>
+                        </select>
+                    </div>
+                    <div class="main-search-select-box">
+                        <select class="main-search-select" id="select-city">
+                            <option value="none" disabled selected>Tudo</option>
+                            <option value="portorico">Porto Rico</option>
+                            <option value="maringa">Maringá</option>
+                        </select>
+                    </div>
+                    <!-- <div class="main-search-input-box">
+                        <input id="main-search-input-cep" class="main-search-input-cep" type="text" maxlength="8"
+                            placeholder="Digite o CEP">
+                    </div> -->
+                    <button class="main-search-icon">
+                        <img src="./icons/lupa.png">
+                    </button>
+                </div>
+            </form>
+
+            <div class="main-select-type-box">
+                <div class="main-select-type">
+                    <select class="main-select-type-input">
+                        <option value="all" selected>Todos</option>
+                        <option value="donate">Doações</option>
+                        <option value="trade">Trocas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="main-books">
+                <ul class="main-books-list">
+                    <li class="main-books-list-item">
+                        <div class="main-books-image img-url"></div>
+                        <div class="main-books-informations-box">
+                            <p class="main-books-title">título do livro</p>
+                            <div class="main-books-type">
+                                <img src="./icons/aperto-de-mao.png">
+                                <p>Doação</p>
+                            </div>
+                            <div class="main-books-location-box">
+                                <img src="./icons/pin.png">
+                                <p class="main-books-location">Maringá - PR</p>
+                            </div>
+                        </div>
+                        <div class="main-books-button-box">
+                            <button class="main-books-button">Solicitar</button>
+                        </div>
+                    </li>
+
+                    <li class="main-books-list-item">
+                        <div class="main-books-image img-url"></div>
+                        <div class="main-books-informations-box">
+                            <p class="main-books-title">Título do livro</p>
+                            <div class="main-books-type">
+                                <img src="./icons/troca.png">
+                                <p>Troca</p>
+                            </div>
+                            <div class="main-books-location-box">
+                                <img src="./icons/pin.png">
+                                <p class="main-books-location">Maringá - PR</p>
+                            </div>
+                        </div>
+                        <div class="main-books-button-box">
+                            <button class="main-books-button">Solicitar</button>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </main>
+
+
+
+    <footer>
+
+    </footer>
+
+    <script src="./index.js"></script>
+</body>
+
+</html>
