@@ -1,5 +1,6 @@
 
 window.addEventListener("DOMContentLoaded", () => {
+    const apiUrl = 'http://localhost:3000/auth/login';
     const email = document.getElementById("email");
     const password = document.getElementById("password");
     const error = document.getElementById('error-message');
@@ -13,7 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
             try {
                 setErrorMessage(error, "")
-                const res = await fetch('http://localhost:3000/login', {
+                const res = await fetch(apiUrl, {
                     method: 'POST',
                     body: JSON.stringify({ email: email.value, password: password.value }),
                     headers: {
@@ -21,16 +22,19 @@ window.addEventListener("DOMContentLoaded", () => {
                     }
                 });
 
-                if (data.status === 200) {
+                if (res.status === 200) {
                     const data = await res.json();
+                    console.log(data.data)
                     const session = {
-                        userName: data.userName,
-                        token: data.token
+                        userName: data.data.name,
+                        token: data.data.accessToken
                     }
+                    console.log(session)
 
                     window.localStorage.setItem("session", JSON.stringify(session));
 
                     //redirecionar página principal
+                    window.location.href = '../home/index.html'
                 } else {
                     setErrorMessage(error, "Email ou senha inválido")
                     email.disabled = false;

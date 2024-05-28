@@ -13,7 +13,7 @@
     <main>
         <h1>Cadastre-se na Biblioteca</h1>
 
-        <form>
+        <form id="form">
             <div class="box-input">
                 <label for="first-name">Nome</label>
                 <input class="input" id="first-name" type="text" required>
@@ -58,19 +58,17 @@
             <div class="box-input">
                 <label for="state">Estado</label>
                 <select id="state" class="input">
-                    <option value="as">Teste</option>
                 </select>
             </div>
 
             <div class="box-input">
                 <label for="city">City</label>
                 <select id="city" class="input">
-                    <option value="as">Teste</option>
                 </select>
             </div>
 
             <div class="box-submit">
-                <button type="submit">Cadastrar</button>
+                <button id="btn-submit" type="submit">Cadastrar</button>
                 <p id="error-message" class="error-login"></p>
             </div>
         </form>

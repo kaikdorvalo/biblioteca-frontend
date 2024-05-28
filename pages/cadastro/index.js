@@ -1,5 +1,6 @@
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
+    const apiUrl = 'http://localhost:3000/usuarios/cadastro'
     const firstName = document.getElementById("first-name");
     const lastName = document.getElementById("last-name");
     const cpf = document.getElementById("cpf");
@@ -8,7 +9,75 @@ window.addEventListener("DOMContentLoaded", () => {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
     const passwordConfirm = document.getElementById("password-confirm");
+    const state = document.getElementById("state");
+    const city = document.getElementById("city");
     const error = document.getElementById('error-message');
+    const form = document.getElementById('form');
+    loadLocationInputs();
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setErrorMessage("")
+        let informations = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            cpf: cpf.value,
+            phoneNumber: phoneNumber.value,
+            date: date.value,
+            email: email.value,
+            password: password.value,
+            state: state.value,
+            city: city.value,
+        }
+
+        try {
+            const res = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(informations),
+            })
+
+            if (res.status !== 201) {
+                const result = await res.json();
+                setErrorMessage(error, result.message);
+            } else {
+                setErrorMessage(error, "");
+                window.location.href = '../login/index.html';
+            }
+        } catch (err) {
+            console.error(err);
+            setErrorMessage(error, 'Não foi possível realizar o cadastro. Tente novamente')
+        }
+    })
+
+    state.addEventListener('change', async () => {
+        formatInput(
+            state,
+            () => {
+                return state.value
+            },
+            () => {
+                return !validateEmpty(state.value);
+            }
+        )
+
+        const cities = await getCities(state.value);
+        loadCityInput(cities);
+    })
+
+    city.addEventListener('change', () => {
+        formatInput(
+            city,
+            () => {
+                return city.value
+            },
+            () => {
+                return !validateEmpty(city.value);
+            }
+        )
+    })
 
     firstName.addEventListener('keyup', () => {
         formatInput(
@@ -121,8 +190,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     })
 
-    console.log(date.value)
-
     function formatInput(input, formatFunction, validateFunction) {
         input.value = formatFunction(input.value);
         if (input.value !== '') {
@@ -139,47 +206,125 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    document.addEventListener("submit", async (event) => {
-        event.preventDefault();
+    // document.addEventListener("submit", async (event) => {
+    //     event.preventDefault();
 
-        if (validateEmail(email.value) && password.value.length >= 8) {
-            email.disabled = true;
-            password.disabled = true;
+    //     if (validateEmail(email.value) && password.value.length >= 8) {
+    //         email.disabled = true;
+    //         password.disabled = true;
 
-            try {
-                setErrorMessage(error, "")
-                const res = await fetch('http://localhost:3000/login', {
-                    method: 'POST',
-                    body: JSON.stringify({ email: email.value, password: password.value }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+    //         try {
+    //             setErrorMessage(error, "")
+    //             const res = await fetch('http://localhost:3000/login', {
+    //                 method: 'POST',
+    //                 body: JSON.stringify({ email: email.value, password: password.value }),
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 }
+    //             });
 
-                if (data.status === 200) {
-                    const data = await res.json();
-                    const session = {
-                        userName: data.userName,
-                        token: data.token
-                    }
+    //             if (data.status === 200) {
+    //                 const data = await res.json();
+    //                 const session = {
+    //                     userName: data.userName,
+    //                     token: data.token
+    //                 }
 
-                    window.localStorage.setItem("session", JSON.stringify(session));
+    //                 window.localStorage.setItem("session", JSON.stringify(session));
 
-                    //redirecionar página principal
-                } else {
-                    setErrorMessage(error, "Email ou senha inválido")
-                    email.disabled = false;
-                    password.disabled = false;
-                }
-            } catch (err) {
-                email.disabled = false;
-                password.disabled = false;
-                setErrorMessage(error, "Não foi possível realizar o login. Tente novamente")
-            }
-        }
+    //                 //redirecionar página principal
+    //             } else {
+    //                 setErrorMessage(error, "Email ou senha inválido")
+    //                 email.disabled = false;
+    //                 password.disabled = false;
+    //             }
+    //         } catch (err) {
+    //             email.disabled = false;
+    //             password.disabled = false;
+    //             setErrorMessage(error, "Não foi possível realizar o login. Tente novamente")
+    //         }
+    //     }
 
-    })
+    // })
 })
+
+async function loadLocationInputs() {
+    const location = defaultUfAndCity();
+    const [ufs, cities] = await Promise.all([
+        getUf(),
+        getCities(location.sigla)
+    ])
+
+    loadUfsInput(ufs);
+    loadCityInput(cities)
+}
+
+function loadUfsInput(ufs) {
+    const select = document.getElementById('state');
+    const location = defaultUfAndCity();
+    for (let uf of ufs) {
+        const option = document.createElement('option');
+        option.value = uf.sigla;
+        option.textContent = uf.nome
+        if (uf.sigla === location.sigla) { option.selected = true };
+        select.appendChild(option);
+    }
+}
+
+function loadCityInput(cities) {
+    const select = document.getElementById('city');
+    select.innerHTML = ""
+    const location = defaultUfAndCity();
+    for (let city of cities) {
+        const option = document.createElement('option');
+        option.value = city.id;
+        option.textContent = city.nome
+        if (city.nome === location.city) { option.selected = true };
+        select.appendChild(option);
+    }
+}
+
+function defaultUfAndCity() {
+    return { sigla: 'PR', city: 'Maringá' }
+}
+
+async function getCities(state) {
+    try {
+        const res = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios`);
+        const cities = await res.json();
+        return cities.sort((a, b) => {
+            if (a.nome < b.nome) {
+                return -1;
+            }
+            if (a.nome > b.nome) {
+                return 1;
+            }
+            return 0;
+        });
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+async function getUf() {
+    try {
+        const res = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+        const states = await res.json();
+        return states.sort((a, b) => {
+            if (a.nome < b.nome) {
+                return -1;
+            }
+            if (a.nome > b.nome) {
+                return 1;
+            }
+            return 0;
+        });
+    } catch (error) {
+        console.log(error);
+        return null
+    }
+}
 
 function setErrorMessage(el, errorText) {
     el.innerHTML = errorText;

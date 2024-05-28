@@ -4,16 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function loadPage() {
     loadCarousel();
-    loadInputCepFormatListener();
-}
-
-
-
-function loadInputCepFormatListener() {
-    const input = document.getElementById('main-search-input-cep');
-    input.addEventListener('keyup', () => {
-        input.value = formatCEP(input.value);
-    })
 }
 
 
