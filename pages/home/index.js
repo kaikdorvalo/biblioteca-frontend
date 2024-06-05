@@ -1,4 +1,6 @@
 const imgWebHook = 'https://discord.com/api/webhooks/1247059657076248639/FM5omKmr4mDKqgk8Nfs3XfMtqkNNY1roZvvWx598U3qWOuWXTcfBQMPl5tJN6pUr8W2K'
+const apiUrl = 'http://localhost:3000/';
+
 
 document.addEventListener("DOMContentLoaded", () => {
     loadPage();
@@ -6,7 +8,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function loadPage() {
     loadCarousel();
-    publiImgListener()
+    publiImgListener();
+
+    publiCreateButtonListener();
+}
+
+function publiCreateButtonListener() {
+    const button = document.getElementById('dialog-btn-publi-create');
+    button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        createPubli();
+    })
+}
+
+async function createPubli() {
+    const imageDiv = document.getElementById("publi-img-view");
+
+    const image = imageDiv.style.backgroundImage.split('"')[1];
+    const title = document.getElementById("book-title");
+    const author = document.getElementById("book-author");
+    const publisher = document.getElementById("book-publisher");
+    const condition = document.getElementById("select-publi-condition");
+    const type = document.getElementById("select-publi-type");
+
+    const session = await JSON.parse(window.localStorage.getItem('session'));
+
+    try {
+        const res = await fetch(`${apiUrl}publis/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.token}`,
+            },
+            body: JSON.stringify({ image: image, title: title.value, author: author.value, publisher: publisher.value, condition: condition.value, type: type.value }),
+        });
+        console.log(res);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function publiImgListener() {

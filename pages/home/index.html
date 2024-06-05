@@ -178,25 +178,33 @@
                         <input class="dialog-input" id="book-title" type="text">
                     </div>
                     <div class="dialog-input-box">
+                        <label for="book-author">Autor</label>
+                        <input class="dialog-input" id="book-author" type="text">
+                    </div>
+                    <div class="dialog-input-box">
+                        <label for="book-publisher">Editora</label>
+                        <input class="dialog-input" id="book-publisher" type="text">
+                    </div>
+                    <div class="dialog-input-box">
+                        <label for="select-publi-condition">Condições</label>
+                        <select class="dialog-input" id="select-publi-condition">
+                            <option value="new">Novo</option>
+                            <option value="used">Usado</option>
+                        </select>
+                    </div>
+                    <div class="dialog-input-box">
                         <label for="select-publi-type">Tipo de Anúncio</label>
                         <select class="dialog-input" id="select-publi-type">
                             <option value="trade">Troca</option>
                             <option value="donate">Doação</option>
                         </select>
                     </div>
-                    <div class="dialog-input-box">
-                        <label for="state-publi">Estado</label>
-                        <select class="dialog-input" id="state-publi"></select>
-                    </div>
-                    <div class="dialog-input-box">
-                        <label for="city-publi">Cidade</label>
-                        <select class="dialog-input" id="city-publi">
-                        </select>
-                    </div>
                 </div>
             </div>
+
+
             <div class="dialog-btns-box">
-                <button class="dialog-btn dialog-btn-publi">Publicar</button>
+                <button id="dialog-btn-publi-create" class="dialog-btn dialog-btn-publi">Publicar</button>
                 <button class="dialog-btn dialog-btn-cancel">Cancelar</button>
             </div>
         </form>
