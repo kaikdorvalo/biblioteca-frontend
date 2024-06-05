@@ -1,23 +1,166 @@
 const imgWebHook = 'https://discord.com/api/webhooks/1247059657076248639/FM5omKmr4mDKqgk8Nfs3XfMtqkNNY1roZvvWx598U3qWOuWXTcfBQMPl5tJN6pUr8W2K'
 const apiUrl = 'http://localhost:3000/';
+const statesApi = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
+const defaultLocation = { uf: 'PR', city: 4115200 }
 
 
 document.addEventListener("DOMContentLoaded", () => {
     loadPage();
 })
 
-function loadPage() {
+async function loadPage() {
     loadCarousel();
     publiImgListener();
+    await loadLocationInputs();
+    await inputUfListener();
 
     publiCreateButtonListener();
+    publiListeners();
+
+    loadPublis();
+}
+
+async function loadPublis() {
+    const selectUf = document.getElementById('main-search-select-uf');
+    const selectCity = document.getElementById('select-city');
+    const type = document.getElementById('main-select-type-input');
+
+    try {
+        const session = await JSON.parse(window.localStorage.getItem('session'));
+        const url = `${apiUrl}publis/get?uf=${selectUf.value}&city=${selectCity.value}&type=${type.value}`
+        console.log(url)
+        const res = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.token}`,
+            },
+        });
+        const data = await res.json();
+        console.log(data);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getStates() {
+    try {
+        const res = await fetch(statesApi);
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+async function getCities(state) {
+    try {
+        const res = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios`);
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+async function inputUfListener() {
+    const selectUf = document.getElementById('main-search-select-uf');
+
+    selectUf.addEventListener("change", async () => {
+        const cities = await getCities(selectUf.value);
+        loadCities(cities)
+    })
+}
+
+function loadCities(cities) {
+    const selectCity = document.getElementById('select-city');
+    selectCity.innerHTML = ''
+    if (cities !== null) {
+        cities.forEach((el) => {
+            const option = document.createElement('option');
+            option.value = el.id
+            option.textContent = el.nome
+            if (el.id === defaultLocation.city) { option.selected = true }
+            selectCity.appendChild(option);
+        })
+    } else {
+        const option = document.createElement('option');
+        option.value = 'error';
+        option.textContent = 'Erro';
+        selectCity.appendChild(option);
+    }
+}
+
+async function loadLocationInputs() {
+    const selectUf = document.getElementById('main-search-select-uf');
+
+    const [states, cities] = await Promise.all([
+        getStates(),
+        getCities(defaultLocation.uf)
+    ])
+
+    console.log(states)
+    console.log(cities)
+
+    if (states !== null) {
+        states.forEach((el) => {
+            const option = document.createElement('option');
+            option.value = el.sigla
+            option.textContent = el.nome
+            if (el.sigla === defaultLocation.uf) { option.selected = true }
+            selectUf.appendChild(option);
+        })
+    } else {
+        const option = document.createElement('option');
+        option.value = 'error';
+        option.textContent = 'Erro';
+        selectUf.appendChild(option);
+    }
+
+    loadCities(cities);
 }
 
 function publiCreateButtonListener() {
     const button = document.getElementById('dialog-btn-publi-create');
+    const modal = document.getElementById('dialog-publi');
+    const errorMsg = document.getElementById('dialog-publi-error-msg');
+    const closeBtn = document.getElementById('dialog-close');
+    const cancelBtn = document.getElementById('dialog-btn dialog-btn-cancel');
     button.addEventListener('click', async (e) => {
         e.preventDefault();
-        createPubli();
+        const res = await createPubli();
+        if (res !== null && res.status === 201) {
+            modal.close();
+            errorMsg.textContent = ''
+            location.reload();
+        } else {
+            errorMsg.textContent = 'Não foi possível publicar o livro. Tente novamente.';
+        }
+    })
+
+    closeBtn.addEventListener('click', () => {
+        closeModal(modal);
+    })
+
+    cancelBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal(modal);
+    })
+}
+
+function closeModal(modal) {
+    modal.close();
+}
+
+function publiListeners() {
+    const publiBtn = document.getElementById('header-announce-btn');
+    const modal = document.getElementById('dialog-publi');
+    const errorMsg = document.getElementById('dialog-publi-error-msg');
+    publiBtn.addEventListener("click", () => {
+        errorMsg.textContent = ''
+        modal.showModal();
     })
 }
 
@@ -42,9 +185,10 @@ async function createPubli() {
             },
             body: JSON.stringify({ image: image, title: title.value, author: author.value, publisher: publisher.value, condition: condition.value, type: type.value }),
         });
-        console.log(res);
+        return res
     } catch (error) {
         console.log(error);
+        return null;
     }
 }
 

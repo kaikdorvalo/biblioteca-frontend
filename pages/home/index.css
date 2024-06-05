@@ -257,7 +257,7 @@ main {
 .main-search-select {
     background: transparent;
     height: 100%;
-    font-size: 1.2em;
+    font-size: 1em;
     border: none;
     outline: none;
     padding: 0 10px;
@@ -454,7 +454,7 @@ dialog {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .dialog-close-box {
@@ -563,4 +563,10 @@ dialog {
     background-repeat: no-repeat;
     opacity: .4;
     cursor: pointer;
+}
+
+.dialog-publi-error-msg {
+    text-align: center;
+    color: red;
+    opacity: 1;
 }

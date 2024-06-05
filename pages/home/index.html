@@ -42,7 +42,7 @@
                     </div>
                 </div>
 
-                <button class="header-announce-btn">Anunciar</button>
+                <button id="header-announce-btn" class="header-announce-btn">Anunciar</button>
             </div>
         </div>
     </header>
@@ -75,15 +75,12 @@
                 <div class="main-search-selects-search">
                     <div class="main-search-select-box">
                         <select id="main-search-select-uf" class="main-search-select" id="select-uf">
-                            <option value="portorico" selected>Porto Rico</option>
-                            <option value="maringa">Maringá</option>
+
                         </select>
                     </div>
                     <div class="main-search-select-box">
                         <select class="main-search-select" id="select-city">
-                            <option value="none" disabled selected>Tudo</option>
-                            <option value="portorico">Porto Rico</option>
-                            <option value="maringa">Maringá</option>
+
                         </select>
                     </div>
                     <!-- <div class="main-search-input-box">
@@ -98,7 +95,7 @@
 
             <div class="main-select-type-box">
                 <div class="main-select-type">
-                    <select class="main-select-type-input">
+                    <select id="main-select-type-input" class="main-select-type-input">
                         <option value="all" selected>Todos</option>
                         <option value="donate">Doações</option>
                         <option value="trade">Trocas</option>
@@ -156,10 +153,10 @@
     </footer>
 
 
-    <dialog class="dialog-publi" open>
+    <dialog id="dialog-publi" class="dialog-publi">
         <form class="dialog-form-box">
             <div class="dialog-close-box">
-                <div class="dialog-close">X</div>
+                <div id="dialog-close" class="dialog-close">X</div>
             </div>
             <div class="dialog-form">
                 <div>
@@ -196,7 +193,7 @@
                         <label for="select-publi-type">Tipo de Anúncio</label>
                         <select class="dialog-input" id="select-publi-type">
                             <option value="trade">Troca</option>
-                            <option value="donate">Doação</option>
+                            <option value="donate" selected>Doação</option>
                         </select>
                     </div>
                 </div>
@@ -205,8 +202,9 @@
 
             <div class="dialog-btns-box">
                 <button id="dialog-btn-publi-create" class="dialog-btn dialog-btn-publi">Publicar</button>
-                <button class="dialog-btn dialog-btn-cancel">Cancelar</button>
+                <button id="dialog-btn dialog-btn-cancel" class="dialog-btn dialog-btn-cancel">Cancelar</button>
             </div>
+            <p id="dialog-publi-error-msg" class="dialog-publi-error-msg"></p>
         </form>
     </dialog>
 
