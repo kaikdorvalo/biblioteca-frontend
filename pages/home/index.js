@@ -38,9 +38,37 @@ async function loadPublis() {
         });
         const data = await res.json();
         console.log(data);
+        renderPublis(data.data);
     } catch (error) {
         console.error(error);
     }
+}
+
+async function renderPublis(publis) {
+    const list = document.getElementById('main-books-list');
+    list.innerHTML = '';
+    publis.forEach(async (el) => {
+        const child = `
+            <li class="main-books-list-item" data-id="${el.id}">
+                <div class="main-books-image img-url" style="background-image: url('${el.image}')"></div>
+                <div class="main-books-informations-box">
+                    <p class="main-books-title">${el.title}</p>
+                    <div class="main-books-type">
+                        <img src="./icons/aperto-de-mao.png">
+                        <p>${el.type === 'donate' ? 'Doação' : 'Troca'}</p>
+                    </div>
+                    <div class="main-books-location-box">
+                        <img src="./icons/pin.png">
+                        <p class="main-books-location">${el.cityName} - ${el.state}</p>
+                    </div>
+                </div>
+                <div class="main-books-button-box">
+                    <button class="main-books-button">Solicitar</button>
+                </div>
+            </li>
+        `
+        list.innerHTML = list.innerHTML + child;
+    })
 }
 
 async function getStates() {

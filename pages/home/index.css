@@ -183,11 +183,15 @@ main {
 }
 
 .main-carousel-list-item1 {
-    background: lightblue;
+    background: url('./imgs/banner1.png');
+    background-position: center;
+    background-size: cover;
 }
 
 .main-carousel-list-item2 {
-    background: lightcoral;
+    background: url('./imgs/banner2.png');
+    background-position: center;
+    background-size: cover;
 }
 
 
@@ -345,7 +349,6 @@ main {
 }
 
 .img-url {
-    background-image: url('https://th.bing.com/th/id/OIP.XgtzCTHyDTgDECqxI3tGLgHaEl?rs=1&pid=ImgDetMain');
     background-size: cover;
     background-position: center;
 }
