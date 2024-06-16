@@ -107,3 +107,7 @@ footer {
     justify-content: center;
     align-items: center;
 }
+
+.create-account {
+    padding: 20px 0;
+}

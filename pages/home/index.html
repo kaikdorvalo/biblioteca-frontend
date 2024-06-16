@@ -18,13 +18,13 @@
             </div>
             <div class="header-nav-box">
                 <ul class="header-list">
-                    <li class="header-list-li">
+                    <li id="btn-my-publis" class="header-list-li">
                         <div class="header-ul-img-box">
                             <img src="./icons/pranchetas.png">
                         </div>
                         <p class="header-list-li-title">Meus Anúncios</p>
                     </li>
-                    <li class="header-list-li">
+                    <li id="btn-notify" class="header-list-li">
                         <div class="header-ul-img-box">
                             <img src="./icons/sino.png">
                         </div>
@@ -36,7 +36,7 @@
                     <div class="header-user-img-box">
                         <img src="./icons/do-utilizador.png">
                     </div>
-                    <p class="header-user-username">Username</p>
+                    <p id="header-username" class="header-user-username">Username</p>
                     <div class="header-user-box-arrow">
                         <img src="./icons/arrow.png">
                     </div>
@@ -87,7 +87,7 @@
                         <input id="main-search-input-cep" class="main-search-input-cep" type="text" maxlength="8"
                             placeholder="Digite o CEP">
                     </div> -->
-                    <button class="main-search-icon">
+                    <button id="search-btn" class="main-search-icon">
                         <img src="./icons/lupa.png">
                     </button>
                 </div>
@@ -95,7 +95,7 @@
 
             <div class="main-select-type-box">
                 <div class="main-select-type">
-                    <select id="main-select-type-input" class="main-select-type-input">
+                    <select id="main-select-type-input" class="main-select-type-input" disabled>
                         <option value="all" selected>Todos</option>
                         <option value="donate">Doações</option>
                         <option value="trade">Trocas</option>
@@ -206,6 +206,18 @@
             </div>
             <p id="dialog-publi-error-msg" class="dialog-publi-error-msg"></p>
         </form>
+    </dialog>
+
+    <dialog id="contact-modal" class="dialog-contact" open>
+        <div class="dialog-contac-div">
+            <div>
+            </div>
+            <div class="contact-contact">
+                <p>Kaik Dorvalo</p>
+                <p>44991637827</p>
+            </div>
+            <button id="confirmar-btn" class="contact-btn">Confirmar</button>
+        </div>
     </dialog>
 
     <script src="./index.js"></script>

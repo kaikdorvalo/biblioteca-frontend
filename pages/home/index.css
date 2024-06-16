@@ -27,7 +27,9 @@ header {
 .header-logo-box {
     width: 40px;
     height: 40px;
-    background: lightgrey;
+    background: url('./icons/book-stack.png');
+    background-position: center;
+    background-size: cover;
 }
 
 .header-nav-box {
@@ -443,6 +445,7 @@ dialog {
     border: 1px solid black;
     border-radius: 10px;
     padding: 20px;
+    margin: 0;
 }
 
 
@@ -572,4 +575,33 @@ dialog {
     text-align: center;
     color: red;
     opacity: 1;
+}
+
+.dialog-contact {
+    width: 50vh;
+}
+
+.dialog-contac-div {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+.contact-btn {
+    cursor: pointer;
+    width: 80%;
+    padding: 10px 0;
+    background: rgb(0, 183, 255);
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.contact-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 1.2em;
+    align-items: center;
 }

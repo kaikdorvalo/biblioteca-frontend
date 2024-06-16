@@ -6,6 +6,32 @@ const defaultLocation = { uf: 'PR', city: 4115200 }
 
 document.addEventListener("DOMContentLoaded", () => {
     loadPage();
+
+    const session = JSON.parse(window.localStorage.getItem("session"));
+    if (session === null) {
+        redirectToLogin();
+    } else {
+        const user = document.getElementById('header-username');
+        user.textContent = session.userName
+    }
+})
+
+document.getElementById('search-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('Função em desenvolvimento');
+})
+document.getElementById('btn-my-publis').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('Função em desenvolvimento');
+})
+document.getElementById('btn-notify').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('Função em desenvolvimento');
+})
+
+
+document.getElementById('confirmar-btn').addEventListener('click', () => {
+    document.getElementById('contact-modal').close();
 })
 
 async function loadPage() {
@@ -27,6 +53,9 @@ async function loadPublis() {
 
     try {
         const session = await JSON.parse(window.localStorage.getItem('session'));
+        if (session === null) {
+            redirectToLogin();
+        }
         const url = `${apiUrl}publis/get?uf=${selectUf.value}&city=${selectCity.value}&type=${type.value}`
         console.log(url)
         const res = await fetch(url, {
@@ -36,6 +65,9 @@ async function loadPublis() {
                 'Authorization': `Bearer ${session.token}`,
             },
         });
+        if (res.status === 403) {
+            redirectToLogin();
+        }
         const data = await res.json();
         console.log(data);
         renderPublis(data.data);
@@ -102,6 +134,10 @@ async function inputUfListener() {
     })
 }
 
+function redirectToLogin() {
+    window.location.href = '../login/index.html'
+}
+
 function loadCities(cities) {
     const selectCity = document.getElementById('select-city');
     selectCity.innerHTML = ''
@@ -124,10 +160,18 @@ function loadCities(cities) {
 async function loadLocationInputs() {
     const selectUf = document.getElementById('main-search-select-uf');
 
-    const [states, cities] = await Promise.all([
-        getStates(),
-        getCities(defaultLocation.uf)
-    ])
+    // const [states, cities] = await Promise.all([
+    //     getStates(),
+    //     getCities(defaultLocation.uf)
+    // ])
+
+    const states = [
+        { sigla: 'PR', nome: 'Paraná' },
+    ]
+
+    const cities = [
+        { id: 111, nome: 'Maringá' }
+    ]
 
     console.log(states)
     console.log(cities)
