@@ -76,6 +76,39 @@ async function loadPublis() {
     }
 }
 
+async function openModalBookContact(bookId) {
+    const name = document.getElementById('contact-name');
+    const number = document.getElementById('contact-number');
+    try {
+        document.getElementById('contact-modal').showModal();
+        const session = await JSON.parse(window.localStorage.getItem('session'));
+        const response = await fetch(`http://localhost:3000/publis/contact/${bookId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.token}`,
+            },
+        });
+        console.log(response)
+        if (response.status === 200) {
+            const data = await response.json();
+            console.log(data)
+
+            name.textContent = data.data.name + ' ' + data.data.lastName;
+            number.textContent = data.data.number;
+        } else {
+            name.textContent = 'Erro';
+            number.textContent = 'Erro';
+        }
+    } catch (error) {
+        console.error(error);
+        name.textContent = 'Erro';
+        number.textContent = 'Erro';
+    }
+
+
+}
+
 async function renderPublis(publis) {
     const list = document.getElementById('main-books-list');
     list.innerHTML = '';
@@ -95,7 +128,7 @@ async function renderPublis(publis) {
                     </div>
                 </div>
                 <div class="main-books-button-box">
-                    <button class="main-books-button">Solicitar</button>
+                    <button class="main-books-button" onclick="openModalBookContact(${el.id})">Solicitar</button>
                 </div>
             </li>
         `
